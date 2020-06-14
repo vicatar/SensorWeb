@@ -21,7 +21,7 @@ We aslo store an id of a user who created a Sensorweb item.
 
 * `Auth` - this function implements a custom authorizer for API Gateway that should be added to all other functions.
 
-* `GetSensors` - returns all Sensorwebs for a current user. A user id can be extracted from a JWT token that is sent by the frontend
+* `GetSensors` - returns all Sensors for a current user. A user id can be extracted from a JWT token that is sent by the frontend
 
 It returns data that looks like this:
 
@@ -39,7 +39,7 @@ It returns data that looks like this:
     {
       "sensorId": "456",
       "createdAt": "2019-07-27T20:01:45.424Z",
-      "name": "Send a letter",
+      "name": "Family Room",
       "dueDate": "2019-07-29T20:01:45.424Z",
       "done": true,
       "attachmentUrl": "http://example.com/image.png"
@@ -48,15 +48,15 @@ It returns data that looks like this:
 }
 ```
 
-* `CreateSensorweb` - creates a new Sensorweb for a current user. A shape of data send by a client application to this function can be found in the `CreateSensorwebRequest.ts` file
+* `CreateSensor` - creates a new Sensor for a current user. A shape of data send by a client application to this function can be found in the `CreateSensorwebRequest.ts` file
 
-* `UpdateSensorweb` - should update a Sensorweb item created by a current user. A shape of data send by a client application to this function can be found in the `UpdateSensorwebRequest.ts` file
+* `UpdateSensor` - should update a Sensor item created by a current user. A shape of data send by a client application to this function can be found in the `UpdateSensorwebRequest.ts` file
 
 The id of an item that should be updated is passed as a URL parameter.
 
 It returns an empty body.
 
-* `DeleteSensorweb` - should delete a Sensorweb item created by a current user. Expects an id of a Sensorweb item to remove.
+* `DeleteSensor` - should delete a Sensor item created by a current user. Expects an id of a Sensorweb item to remove.
 
 It returns an empty body.
 
