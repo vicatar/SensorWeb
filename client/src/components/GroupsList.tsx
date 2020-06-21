@@ -36,7 +36,7 @@ export class GroupsList extends React.PureComponent<GroupsListProps, GroupsListS
   render() {
     return (
       <div>
-        <h1>Groups</h1>
+        <h1>Sensors</h1>
 
         <Button
           primary
@@ -44,7 +44,7 @@ export class GroupsList extends React.PureComponent<GroupsListProps, GroupsListS
           className="add-button"
           onClick={this.handleCreateGroup}
         >
-          Create new group
+          Create new sensor
         </Button>
 
         <Divider clearing />

@@ -7,6 +7,7 @@ interface CreateGroupProps {}
 interface CreateGroupState {
   name: string
   description: string
+  done: boolean
   uploadingGroup: boolean
 }
 
@@ -17,6 +18,7 @@ export class CreateGroup extends React.PureComponent<
   state: CreateGroupState = {
     name: '',
     description: '',
+    done: false,
     uploadingGroup: false
   }
 
@@ -40,7 +42,8 @@ export class CreateGroup extends React.PureComponent<
       this.setUploadState(true)
       const group = await createGroup({
         name: this.state.name,
-        description: this.state.description
+        description: this.state.description,
+        done: this.state.done
       })
 
       console.log('Created description', group)
@@ -62,13 +65,13 @@ export class CreateGroup extends React.PureComponent<
   render() {
     return (
       <div>
-        <h1>Upload new group</h1>
+        <h1>Upload new sensor</h1>
 
         <Form onSubmit={this.handleSubmit}>
           <Form.Field>
             <label>Name</label>
             <input
-              placeholder="Group name"
+              placeholder="Sensor name"
               value={this.state.name}
               onChange={this.handleNameChange}
             />
@@ -76,7 +79,7 @@ export class CreateGroup extends React.PureComponent<
           <Form.Field>
             <label>Description</label>
             <input
-              placeholder="Group description"
+              placeholder="Sensor description"
               value={this.state.description}
               onChange={this.handleDescriptionChange}
             />

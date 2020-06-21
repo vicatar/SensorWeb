@@ -18,6 +18,7 @@ export class Group extends React.PureComponent<GroupCardProps, GroupCardState> {
           <Card.Header>
             {this.props.group.name}
           </Card.Header>
+          <Card.Meta>DONE = {this.props.group.done.toString()}</Card.Meta>
           <Card.Description>{this.props.group.description}</Card.Description>
         </Card.Content>
       </Card>

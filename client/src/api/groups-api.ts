@@ -20,7 +20,8 @@ export async function createGroup(newGroup: GroupUploadInfo): Promise<GroupModel
     },
     body: JSON.stringify({
       name: newGroup.name,
-      description: newGroup.description
+      description: newGroup.description,
+      done: newGroup.done
     })
   })
   const result = await reply.json();
