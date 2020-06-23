@@ -8,7 +8,7 @@ export class TodoItemAccess {
   constructor(
     private readonly docClient: DocumentClient = createDynamoDBClient(),
 //    private readonly indexName = process.env.TODO_ID_INDEX,
-    private readonly todosTable = process.env.TODOS_TABLE
+    private readonly todosTable = process.env.SENSOR_TABLE
     ) { }
 
   async getAllTodoItems(): Promise<TodoItem[]> {

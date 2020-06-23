@@ -6,7 +6,7 @@ interface CreateGroupProps {}
 
 interface CreateGroupState {
   name: string
-  description: string
+  dueDate: string
   done: boolean
   uploadingGroup: boolean
 }
@@ -17,7 +17,7 @@ export class CreateGroup extends React.PureComponent<
 > {
   state: CreateGroupState = {
     name: '',
-    description: '',
+    dueDate: '',
     done: false,
     uploadingGroup: false
   }
@@ -27,22 +27,22 @@ export class CreateGroup extends React.PureComponent<
   }
 
   handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ description: event.target.value })
+    this.setState({ dueDate: event.target.value })
   }
 
   handleSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault()
 
     try {
-      if (!this.state.name || !this.state.description) {
-        alert('Name and description should be provided')
+      if (!this.state.name || !this.state.dueDate) {
+        alert('Name and dueDate should be provided')
         return
       }
 
       this.setUploadState(true)
       const group = await createGroup({
         name: this.state.name,
-        description: this.state.description,
+        dueDate: this.state.dueDate,
         done: this.state.done
       })
 
@@ -77,10 +77,10 @@ export class CreateGroup extends React.PureComponent<
             />
           </Form.Field>
           <Form.Field>
-            <label>Description</label>
+            <label>dueDate</label>
             <input
-              placeholder="Sensor description"
-              value={this.state.description}
+              placeholder="Sensor created at"
+              value={this.state.dueDate}
               onChange={this.handleDescriptionChange}
             />
           </Form.Field>

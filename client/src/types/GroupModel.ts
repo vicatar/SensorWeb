@@ -1,6 +1,6 @@
 export interface GroupModel {
-  id: string
+  todoId: string
   name: string
-  description: string
+  dueDate: string
   done: boolean
 }

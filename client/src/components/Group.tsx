@@ -19,7 +19,7 @@ export class Group extends React.PureComponent<GroupCardProps, GroupCardState> {
             {this.props.group.name}
           </Card.Header>
           <Card.Meta>DONE = {this.props.group.done.toString()}</Card.Meta>
-          <Card.Description>{this.props.group.description}</Card.Description>
+          <Card.Description>{this.props.group.dueDate}</Card.Description>
         </Card.Content>
       </Card>
     )
