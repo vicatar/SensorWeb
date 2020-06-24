@@ -51,7 +51,7 @@ export class GroupsList extends React.PureComponent<GroupsListProps, GroupsListS
 
         <Card.Group>
           {this.state.groups.map(group => {
-            return <Group key={group.todoId} group={group} />
+            return <Group key={group.sensorId} group={group} />
           })}
         </Card.Group>
       </div>

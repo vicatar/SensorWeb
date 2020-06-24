@@ -2,17 +2,17 @@ import 'source-map-support/register'
 
 import { APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda'
 
-import { CreateTodoRequest } from '../../requests/CreateTodoRequest'
+import { CreateSensorRequest } from '../../requests/CreateSensorRequest'
 
-import { createTodoItem } from '../../businessLogic/todos';
+import { createSensorItem } from '../../businessLogic/sensors';
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-  const newTodo: CreateTodoRequest = JSON.parse(event.body)
+  const newSensor: CreateSensorRequest = JSON.parse(event.body)
 
-  // TODO: Implement creating a new TODO item
-  console.log('Create todo: ', newTodo)
+  // Implement creating a new sensor item
+  console.log('Create sensor: ', newSensor)
 
-  const todos = await createTodoItem(newTodo)
+  const sensors = await createSensorItem(newSensor)
 
   return {
     statusCode: 200,
@@ -21,7 +21,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
       'Access-Control-Allow-Origin': '*'
     },
     body: JSON.stringify({
-      items: todos
+      items: sensors
     })
   }
 }

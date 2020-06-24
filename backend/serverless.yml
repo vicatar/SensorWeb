@@ -45,12 +45,12 @@ functions:
     handler: src/lambda/auth/auth0Authorizer.handler
 
   # TODO: Configure this function
-  GetTodos:
-    handler: src/lambda/http/getTodos.handler
+  GetSensors:
+    handler: src/lambda/http/getSensors.handler
     events:
       - http:
           method: get
-          path: todos
+          path: sensors
           cors: true
 #          authorizer: Auth
     iamRoleStatements:
@@ -60,12 +60,12 @@ functions:
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.SENSOR_TABLE}
 
   # TODO: Configure this function
-  CreateTodo:
-    handler: src/lambda/http/createTodo.handler
+  CreateSensor:
+    handler: src/lambda/http/createSensor.handler
     events:
       - http:
           method: post
-          path: todos
+          path: sensors
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -73,20 +73,20 @@ functions:
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.SENSOR_TABLE}
       
   # TODO: Configure this function
-  UpdateTodo:
-    handler: src/lambda/http/updateTodo.handler
+  UpdateSensor:
+    handler: src/lambda/http/updateSensor.handler
     events:
       - http:
           method: patch
-          path: todos/{todoId}
+          path: sensors/{sensorId}
 
   # TODO: Configure this function
-  DeleteTodo:
-    handler: src/lambda/http/deleteTodo.handler
+  DeleteSensor:
+    handler: src/lambda/http/deleteSensor.handler
     events:
       - http:
           method: delete
-          path: todos/{todoId}
+          path: sensors/{sensorId}
 
   # TODO: Configure this function
   GenerateUploadUrl:
@@ -94,19 +94,19 @@ functions:
     events:
       - http:
           method: post
-          path: todos/{todoId}/attachment
+          path: sensors/{sensorId}/attachment
 
 resources:
   Resources:
     # TODO: Add any necessary AWS resources
-    TodoDynamoDBTable:
+    SensorDynamoDBTable:
       Type: AWS::DynamoDB::Table
       Properties:
         AttributeDefinitions:
-          - AttributeName: todoId
+          - AttributeName: sensorId
             AttributeType: S
         KeySchema:
-          - AttributeName: todoId
+          - AttributeName: sensorId
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:provider.environment.SENSOR_TABLE}

@@ -1,6 +1,6 @@
 export interface GroupModel {
-  todoId: string
+  sensorId: string
   name: string
-  dueDate: string
+  description: string
   done: boolean
 }

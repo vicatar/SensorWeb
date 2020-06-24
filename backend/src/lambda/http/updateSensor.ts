@@ -2,14 +2,14 @@ import 'source-map-support/register'
 
 import { APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda'
 
-import { UpdateTodoRequest } from '../../requests/UpdateTodoRequest'
+import { UpdateSensorRequest } from '../../requests/UpdateSensorRequest'
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-  const todoId = event.pathParameters.todoId
-  const updatedTodo: UpdateTodoRequest = JSON.parse(event.body)
+  const sensorId = event.pathParameters.sensorId
+  const updatedSensor: UpdateSensorRequest = JSON.parse(event.body)
 
   // TODO: Update a TODO item with the provided id using values in the "updatedTodo" object
-  console.log(todoId)
-  console.log(updatedTodo)
+  console.log(sensorId)
+  console.log(updatedSensor)
   return undefined
 }

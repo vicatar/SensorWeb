@@ -1,9 +1,9 @@
-export interface TodoItem {
+export interface SensorItem {
   userId: string
-  todoId: string
+  sensorId: string
   createdAt: string
   name: string
-  dueDate: string
+  description: string
   done: boolean
   attachmentUrl?: string
 }

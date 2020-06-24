@@ -1,31 +1,31 @@
 import * as AWS  from 'aws-sdk'
 import { DocumentClient } from 'aws-sdk/clients/dynamodb'
 
-import { TodoItem } from '../models/TodoItem'
+import { SensorItem } from '../models/SensorItem'
 
-export class TodoItemAccess {
+export class SensorItemAccess {
 
   constructor(
     private readonly docClient: DocumentClient = createDynamoDBClient(),
 //    private readonly indexName = process.env.TODO_ID_INDEX,
-    private readonly todosTable = process.env.SENSOR_TABLE
+    private readonly sensorsTable = process.env.SENSOR_TABLE
     ) { }
 
-  async getAllTodoItems(): Promise<TodoItem[]> {
-    console.log('Getting all TodoItems')
+  async getAllSensorItems(): Promise<SensorItem[]> {
+    console.log('Getting all Sensors')
 
     const result = await this.docClient.scan({
-      TableName: this.todosTable
+      TableName: this.sensorsTable
 //      IndexName: this.indexName,
     }).promise()
 
-    return result.Items as TodoItem[]
+    return result.Items as SensorItem[]
   }
 
-  async createTodoItem(todoItem: TodoItem) {
+  async createSensorItem(sensorItem: SensorItem) {
     await this.docClient.put({
-      TableName: this.todosTable,
-      Item: todoItem
+      TableName: this.sensorsTable,
+      Item: sensorItem
     }).promise()
   }
 }

@@ -5,7 +5,7 @@ import { GroupUploadInfo } from '../types/GroupUploadInfo'
 export async function getGroups(): Promise<GroupModel[]> {
   console.log('Fetching groups')
 
-  const response = await fetch(`${apiEndpoint}/todos`)
+  const response = await fetch(`${apiEndpoint}/sensors`)
   const result = await response.json()
 
   return result.items
@@ -13,14 +13,14 @@ export async function getGroups(): Promise<GroupModel[]> {
 
 export async function createGroup(newGroup: GroupUploadInfo): Promise<GroupModel> {
 
-  const reply = await fetch(`${apiEndpoint}/todos`, {
+  const reply = await fetch(`${apiEndpoint}/sensors`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       name: newGroup.name,
-      createdAt: newGroup.dueDate,
+      description: newGroup.description,
       done: newGroup.done
     })
   })

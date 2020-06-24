@@ -1,5 +1,5 @@
 export interface GroupUploadInfo {
   name: string
-  dueDate: string
+  description: string
   done: boolean
 }
