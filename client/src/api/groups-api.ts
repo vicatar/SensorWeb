@@ -27,3 +27,16 @@ export async function createGroup(newGroup: GroupUploadInfo): Promise<GroupModel
   const result = await reply.json();
   return result.newItem
 }
+
+export async function deleteSensor(sensorId: string): Promise<void> {
+
+  const reply = await fetch(`${apiEndpoint}/sensors/${sensorId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
+  const result = await reply.json();
+  return 
+}
+

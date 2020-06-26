@@ -21,6 +21,16 @@ provider:
     IS_OFFLINE: false
 
 custom:
+  documentation:
+    models:
+      - name: CreateSensorRequest
+        contentType: application/json
+        schema: ${file(models/create-sensor-request.json)}
+      - name: UpdateSensorRequest
+        contentType: application/json
+        schema: ${file(models/update-sensor-request.json)}
+      
+
   serverless-offline:
     httpPort: 3003
 
@@ -66,6 +76,13 @@ functions:
       - http:
           method: post
           path: sensors
+          cors: true
+          reqValidatorName: RequestBodyValidator
+          documentation:
+            summary: Create a new sensor
+            description: Create a new sensor
+            requestModels:
+              'application/json': CreateSensorRequest
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -79,6 +96,13 @@ functions:
       - http:
           method: patch
           path: sensors/{sensorId}
+          reqValidatorName: RequestBodyValidator
+          cors: true
+          documentation:
+            summary: Update a new sensor
+            description: Update a new sensor
+            requestModels:
+              'application/json': UpdateSensorRequest
 
   # TODO: Configure this function
   DeleteSensor:
@@ -87,6 +111,14 @@ functions:
       - http:
           method: delete
           path: sensors/{sensorId}
+          cors: true
+#          authorizer: Auth
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:DeleteItem
+          - dynamodb:GetItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.SENSOR_TABLE}
 
   # TODO: Configure this function
   GenerateUploadUrl:
@@ -95,7 +127,15 @@ functions:
       - http:
           method: post
           path: sensors/{sensorId}/attachment
-
+          cors: true
+          authorizer: Auth
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:DeleteItem
+          - dynamodb:GetItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.SENSOR_TABLE}
+          
 resources:
   Resources:
     # TODO: Add any necessary AWS resources
@@ -110,3 +150,12 @@ resources:
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:provider.environment.SENSOR_TABLE}
+
+    RequestBodyValidator:
+      Type: AWS::ApiGateway::RequestValidator
+      Properties:
+        Name: 'request-body-validator'
+        RestApiId:
+          Ref: ApiGatewayRestApi
+        ValidateRequestBody: true
+        ValidateRequestParameters: false

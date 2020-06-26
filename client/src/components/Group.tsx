@@ -1,6 +1,7 @@
 import * as React from 'react'
-import { Card } from 'semantic-ui-react'
+import { Card, Button, Icon } from 'semantic-ui-react'
 import { GroupModel } from '../types/GroupModel'
+
 
 interface GroupCardProps {
   group: GroupModel

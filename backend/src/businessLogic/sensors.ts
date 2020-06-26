@@ -1,5 +1,6 @@
 import { SensorItem } from '../models/SensorItem'
 import { SensorItemAccess } from '../dataLayer/sensorsAccess'
+import { APIGatewayProxyEvent } from 'aws-lambda';
 
 import { CreateSensorRequest } from '../requests/CreateSensorRequest'
 
@@ -27,3 +28,15 @@ export async function createSensorItem(createSensorRequest: CreateSensorRequest)
 
   return 
 }
+
+export async function deleteSensorItem(event: APIGatewayProxyEvent) {
+  const sensorId = event.pathParameters.todoId;
+
+  if (!(await sensorItemAccess.getSensor(sensorId))) {
+    return false;
+  }
+  await sensorItemAccess.deleteSensorItem(sensorId);
+
+  return 
+}
+

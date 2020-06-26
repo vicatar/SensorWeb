@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { GroupModel } from '../types/GroupModel'
 import { Group } from './Group'
-import { getGroups } from '../api/groups-api'
-import { Card, Button, Divider } from 'semantic-ui-react'
+import { getGroups, deleteSensor } from '../api/groups-api'
+import { Card, Button, Divider, Icon } from 'semantic-ui-react'
 import { History } from 'history'
 
 interface GroupsListProps {
@@ -33,6 +33,17 @@ export class GroupsList extends React.PureComponent<GroupsListProps, GroupsListS
     }
   }
 
+  onSensorDelete = async (sensorId: string) => {
+    try {
+      await deleteSensor(sensorId)
+      this.setState({
+        groups: this.state.groups.filter(group => group.sensorId != sensorId)
+      })
+    } catch {
+      alert('Todo deletion failed')
+    }
+  }
+
   render() {
     return (
       <div>
@@ -45,6 +56,14 @@ export class GroupsList extends React.PureComponent<GroupsListProps, GroupsListS
           onClick={this.handleCreateGroup}
         >
           Create new sensor
+        </Button>
+
+        <Button
+          icon
+          color="red"
+          onClick={() => this.onSensorDelete('13')}
+        >
+          <Icon name="delete" />
         </Button>
 
         <Divider clearing />

@@ -28,6 +28,26 @@ export class SensorItemAccess {
       Item: sensorItem
     }).promise()
   }
+
+  async deleteSensorItem(sensorId: string) {
+    await this.docClient.delete({
+      TableName: this.sensorsTable,
+      Key: {
+        sensorId
+      }
+    }).promise()
+  }
+
+  async getSensor(sensorId: string) {
+    const result = await this.docClient.get({
+      TableName: this.sensorsTable,
+      Key: {
+        sensorId,
+      }
+    }).promise();
+
+    return result.Item as SensorItem;
+  }
 }
 
 function createDynamoDBClient() {
