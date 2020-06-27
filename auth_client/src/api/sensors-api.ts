@@ -5,7 +5,7 @@ import Axios from 'axios'
 import { UpdateSensorRequest } from '../types/UpdateSensorRequest';
 
 export async function getSensors(idToken: string): Promise<Sensor[]> {
-  console.log('Fetching todos')
+  console.log('Fetching sensors')
 
   const response = await Axios.get(`${apiEndpoint}/sensors`, {
     headers: {

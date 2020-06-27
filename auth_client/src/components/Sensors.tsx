@@ -73,19 +73,19 @@ export class Sensors extends React.PureComponent<SensorProps, SensorsState> {
 
   onSensorCheck = async (pos: number) => {
     try {
-      const todo = this.state.sensors[pos]
-      await patchSensor(this.props.auth.getIdToken(), todo.sensorId, {
-        name: todo.name,
-        description: todo.description,
-        done: !todo.done
+      const sensor = this.state.sensors[pos]
+      await patchSensor(this.props.auth.getIdToken(), sensor.sensorId, {
+        name: sensor.name,
+        description: sensor.description,
+        done: !sensor.done
       })
       this.setState({
         sensors: update(this.state.sensors, {
-          [pos]: { done: { $set: !todo.done } }
+          [pos]: { done: { $set: !sensor.done } }
         })
       })
     } catch {
-      alert('Sensor deletion failed')
+      alert('Sensor check failed')
     }
   }
 
