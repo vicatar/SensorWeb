@@ -4,6 +4,10 @@
 
 This application will allow creating/removing/updating/fetching Sensorweb items. Each Sensorweb item can optionally have an attachment image. Each user only has access to Sensorweb items that he/she has created.
 
+The application based on the Serverless-Todo example.
+
+The idea is that this app would interface with sensors in the real-world, a functionality that is to be implemented.
+
 # Sensorweb items
 
 The application should store Sensorweb items, and each Sensorweb item contains the following fields:
@@ -12,7 +16,7 @@ The application should store Sensorweb items, and each Sensorweb item contains t
 * `createdAt` (string) - date and time when an item was created
 * `location` (string) - Location of a Sensorweb item (e.g. "Family Room")
 * `activated` (boolean) - true if an sensor is activated, false otherwise
-* `count` (string) - number of times a sensor has been activated
+* `description` (string) - number of times a sensor has been activated
 * `attachmentUrl` (string) (optional) - a URL pointing to an image attached to a Sensorweb item
 
 We aslo store an id of a user who created a Sensorweb item.
@@ -32,25 +36,25 @@ It returns data that looks like this:
       "sensorId": "123",
       "createdAt": "2019-07-27T20:01:45.424Z",
       "location": "Bedroom",
-      "count": 0,
+      "description": "5",
       "activated": false,
       "attachmentUrl": "http://example.com/image.png"
     },
     {
       "sensorId": "456",
       "createdAt": "2019-07-27T20:01:45.424Z",
-      "name": "Family Room",
-      "dueDate": "2019-07-29T20:01:45.424Z",
-      "done": true,
+      "location": "Family Room",
+      "description": "0",
+      "activated": true,
       "attachmentUrl": "http://example.com/image.png"
     },
   ]
 }
 ```
 
-* `CreateSensor` - creates a new Sensor for a current user. A shape of data send by a client application to this function can be found in the `CreateSensorwebRequest.ts` file
+* `CreateSensor` - creates a new Sensor for a current user. 
 
-* `UpdateSensor` - should update a Sensor item created by a current user. A shape of data send by a client application to this function can be found in the `UpdateSensorwebRequest.ts` file
+* `UpdateSensor` - should update a Sensor item created by a current user. 
 
 The id of an item that should be updated is passed as a URL parameter.
 

@@ -10,10 +10,10 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
   const sensorId = event.pathParameters.sensorId
   const updatedSensor: UpdateSensorRequest = JSON.parse(event.body)
 
-  // TUpdate a sensor item with the provided id using values in the "updatedSensor" object
-  console.log('Update todo: ', sensorId, updatedSensor)
+  // Update a sensor item with the provided id using values in the "updatedSensor" object
+  console.log('Update sensor: ', sensorId, updatedSensor)
 
-  const todos = await updateSensorItem(event, updatedSensor)
+  const sensor = await updateSensorItem(event, updatedSensor)
 
   return {
     statusCode: 200,
@@ -22,7 +22,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
       'Access-Control-Allow-Origin': '*'
     },
     body: JSON.stringify({
-      items: todos
+      item: sensor
     })
   }
 }

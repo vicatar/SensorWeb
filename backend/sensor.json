@@ -2,17 +2,17 @@
     {
         "todoId": "1",
         "userId": "1",
-        "name": "Vic",
+        "location": "bedroom",
         "createdAt": "Jan-7-2020",
-        "dueDate": "Jan-7-2021",
-        "done": false
+        "description": "5",
+        "activated": false
     },
     {
         "todoId": "2",
         "userId": "1",
-        "name": "Vic",
+        "location": "Family room",
         "createdAt": "Jan-25-2020",
-        "dueDate": "Feb-7-2020",
-        "done": false
+        "description": "0",
+        "activated": false
     }
 ]

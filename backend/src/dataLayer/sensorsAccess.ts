@@ -3,6 +3,13 @@ import { DocumentClient } from 'aws-sdk/clients/dynamodb'
 
 import { SensorItem } from '../models/SensorItem'
 import { SensorUpdate } from '../models/SensorUpdate'
+import { SignedURLRequest} from '../models/SignedUrlRequest'
+import * as AWSXRay from 'aws-xray-sdk'
+const XAWS = AWSXRay.captureAWS(AWS);
+
+const s3 = new XAWS.S3({
+  signatureVersion: 'v4'
+})
 
 export class SensorItemAccess {
 
@@ -87,5 +94,9 @@ function createDynamoDBClient() {
     })
   }
 
-  return new AWS.DynamoDB.DocumentClient()
+  return new XAWS.DynamoDB.DocumentClient();
+}
+
+export function getPresignedUploadURL(createSignedUrlRequest: SignedURLRequest) {
+  return s3.getSignedUrl('putObject', createSignedUrlRequest);
 }
