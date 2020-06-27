@@ -9,14 +9,14 @@
         "description": {
             "type": "string"
         },
-        "done": {
+        "activated": {
             "type": "boolean"
         }
     },
     "required": [
         "name",
         "description",
-        "done"
+        "activated"
     ],
     "additionalProperties": false
 }

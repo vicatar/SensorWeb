@@ -3,6 +3,6 @@ export interface Sensor {
   createdAt: string
   name: string
   description: string
-  done: boolean
+  activated: boolean
   attachmentUrl?: string
 }

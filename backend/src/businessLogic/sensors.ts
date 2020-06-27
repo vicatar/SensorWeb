@@ -31,7 +31,7 @@ export async function createSensorItem(event: APIGatewayProxyEvent,
     userId,
     sensorId,
     createdAt,
-    done: false,
+    activated: false,
     attachmentUrl: `https://${bucketName}.s3.amazonaws.com/${sensorId}`,
     ...createSensorRequest
   };

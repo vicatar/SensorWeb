@@ -4,6 +4,6 @@ export interface SensorItem {
   createdAt: string
   name: string
   description: string
-  done: boolean
+  activated: boolean
   attachmentUrl?: string
 }

@@ -14,7 +14,7 @@ The application should store Sensorweb items, and each Sensorweb item contains t
 
 * `sensorId` (string) - a unique id for an item
 * `createdAt` (string) - date and time when an item was created
-* `location` (string) - Location of a Sensorweb item (e.g. "Family Room")
+* `name` (string) - Location of a Sensorweb item (e.g. "Family Room")
 * `activated` (boolean) - true if an sensor is activated, false otherwise
 * `description` (string) - number of times a sensor has been activated
 * `attachmentUrl` (string) (optional) - a URL pointing to an image attached to a Sensorweb item
@@ -35,7 +35,7 @@ It returns data that looks like this:
     {
       "sensorId": "123",
       "createdAt": "2019-07-27T20:01:45.424Z",
-      "location": "Bedroom",
+      "name": "Bedroom",
       "description": "5",
       "activated": false,
       "attachmentUrl": "http://example.com/image.png"
@@ -43,7 +43,7 @@ It returns data that looks like this:
     {
       "sensorId": "456",
       "createdAt": "2019-07-27T20:01:45.424Z",
-      "location": "Family Room",
+      "name": "Family Room",
       "description": "0",
       "activated": true,
       "attachmentUrl": "http://example.com/image.png"

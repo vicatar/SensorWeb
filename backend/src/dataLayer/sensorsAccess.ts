@@ -70,16 +70,14 @@ export class SensorItemAccess {
         userId,
         sensorId
       },
-      UpdateExpression: 'set #name = :n, #dueDate = :due, #done = :d',
+      UpdateExpression: 'set #name = :n, #activated = :d',
       ExpressionAttributeValues: {
         ':n': updatedSensorItem.name,
-        ':due': updatedSensorItem.description,
-        ':d': updatedSensorItem.done
+        ':d': updatedSensorItem.activated
       },
       ExpressionAttributeNames: {
         '#name': 'name',
-        '#dueDate': 'dueDate',
-        '#done': 'done'
+        '#activated': 'activated'
       }
     }).promise();
   }

@@ -46,7 +46,7 @@ export class Sensors extends React.PureComponent<SensorProps, SensorsState> {
 
   onSensorCreate = async (event: React.ChangeEvent<HTMLButtonElement>) => {
     try {
-      const description = this.calculateDueDate()
+      const description = "0"
       const newSensor = await createSensor(this.props.auth.getIdToken(), {
         name: this.state.newSensorName,
         description
@@ -77,11 +77,11 @@ export class Sensors extends React.PureComponent<SensorProps, SensorsState> {
       await patchSensor(this.props.auth.getIdToken(), sensor.sensorId, {
         name: sensor.name,
         description: sensor.description,
-        done: !sensor.done
+        activated: !sensor.activated
       })
       this.setState({
         sensors: update(this.state.sensors, {
-          [pos]: { done: { $set: !sensor.done } }
+          [pos]: { activated: { $set: !sensor.activated } }
         })
       })
     } catch {
@@ -165,7 +165,10 @@ export class Sensors extends React.PureComponent<SensorProps, SensorsState> {
           </Grid.Column>
           <Grid.Column width={8} verticalAlign="middle">
             <Header as="h4">Location</Header>            
-            </Grid.Column>
+          </Grid.Column>
+          <Grid.Column width={3} floated="left">
+            <Header as="h4">Count</Header>            
+          </Grid.Column>
         </Grid.Row>        
         <Grid.Column width={16}>
                 <Divider />
@@ -176,7 +179,7 @@ export class Sensors extends React.PureComponent<SensorProps, SensorsState> {
               <Grid.Column width={3} verticalAlign="middle">
                 <Checkbox
                   onChange={() => this.onSensorCheck(pos)}
-                  checked={sensor.done}
+                  checked={sensor.activated}
                 />
               </Grid.Column>
               <Grid.Column width={8} verticalAlign="middle">
