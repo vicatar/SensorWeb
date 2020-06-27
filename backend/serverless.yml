@@ -18,6 +18,7 @@ provider:
 
   environment:
     SENSOR_TABLE: Sensors-${self:provider.stage}
+    SENSOR_ID_INDEX: SensorIndex
     IS_OFFLINE: false
 
 custom:
@@ -54,7 +55,6 @@ functions:
   Auth:
     handler: src/lambda/auth/auth0Authorizer.handler
 
-  # TODO: Configure this function
   GetSensors:
     handler: src/lambda/http/getSensors.handler
     events:
@@ -62,14 +62,17 @@ functions:
           method: get
           path: sensors
           cors: true
-#          authorizer: Auth
+          authorizer: Auth
     iamRoleStatements:
       - Effect: Allow
         Action:
-          - dynamodb:Scan
+          - dynamodb:Query
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.SENSOR_TABLE}
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.SENSOR_TABLE}/index/${self:provider.environment.SENSOR_ID_INDEX}
 
-  # TODO: Configure this function
   CreateSensor:
     handler: src/lambda/http/createSensor.handler
     events:
@@ -89,7 +92,6 @@ functions:
           - dynamodb:PutItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.SENSOR_TABLE}
       
-  # TODO: Configure this function
   UpdateSensor:
     handler: src/lambda/http/updateSensor.handler
     events:
@@ -98,13 +100,19 @@ functions:
           path: sensors/{sensorId}
           reqValidatorName: RequestBodyValidator
           cors: true
+          authorizer: Auth
           documentation:
             summary: Update a new sensor
             description: Update a new sensor
             requestModels:
               'application/json': UpdateSensorRequest
-
-  # TODO: Configure this function
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:UpdateItem
+          - dynamodb:GetItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.SENSOR_TABLE}
+          
   DeleteSensor:
     handler: src/lambda/http/deleteSensor.handler
     events:
@@ -112,7 +120,7 @@ functions:
           method: delete
           path: sensors/{sensorId}
           cors: true
-#          authorizer: Auth
+          authorizer: Auth
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -120,7 +128,6 @@ functions:
           - dynamodb:GetItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.SENSOR_TABLE}
 
-  # TODO: Configure this function
   GenerateUploadUrl:
     handler: src/lambda/http/generateUploadUrl.handler
     events:
@@ -138,18 +145,33 @@ functions:
           
 resources:
   Resources:
-    # TODO: Add any necessary AWS resources
+    # Add any necessary AWS resources
     SensorDynamoDBTable:
       Type: AWS::DynamoDB::Table
       Properties:
         AttributeDefinitions:
           - AttributeName: sensorId
             AttributeType: S
+          - AttributeName: createdAt
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
         KeySchema:
-          - AttributeName: sensorId
+          - AttributeName: userId
             KeyType: HASH
+          - AttributeName: sensorId
+            KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:provider.environment.SENSOR_TABLE}
+        LocalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.SENSOR_ID_INDEX}
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+              - AttributeName: createdAt
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
 
     RequestBodyValidator:
       Type: AWS::ApiGateway::RequestValidator

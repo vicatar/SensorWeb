@@ -12,7 +12,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
   // Implement creating a new sensor item
   console.log('Create sensor: ', newSensor)
 
-  const sensors = await createSensorItem(newSensor)
+  const sensor = await createSensorItem(event, newSensor)
 
   return {
     statusCode: 200,
@@ -21,7 +21,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
       'Access-Control-Allow-Origin': '*'
     },
     body: JSON.stringify({
-      items: sensors
+      item: sensor
     })
   }
 }

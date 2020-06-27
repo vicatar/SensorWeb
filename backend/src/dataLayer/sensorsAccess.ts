@@ -2,21 +2,26 @@ import * as AWS  from 'aws-sdk'
 import { DocumentClient } from 'aws-sdk/clients/dynamodb'
 
 import { SensorItem } from '../models/SensorItem'
+import { SensorUpdate } from '../models/SensorUpdate'
 
 export class SensorItemAccess {
 
   constructor(
     private readonly docClient: DocumentClient = createDynamoDBClient(),
-//    private readonly indexName = process.env.TODO_ID_INDEX,
+    private readonly indexName = process.env.SENSOR_ID_INDEX,
     private readonly sensorsTable = process.env.SENSOR_TABLE
     ) { }
 
-  async getAllSensorItems(): Promise<SensorItem[]> {
+  async getAllSensorItems(userId: string): Promise<SensorItem[]> {
     console.log('Getting all Sensors')
 
-    const result = await this.docClient.scan({
-      TableName: this.sensorsTable
-//      IndexName: this.indexName,
+    const result = await this.docClient.query({
+      TableName: this.sensorsTable,
+      IndexName: this.indexName,
+      KeyConditionExpression: 'userId = :userId',
+      ExpressionAttributeValues: {
+        ':userId': userId
+      }
     }).promise()
 
     return result.Items as SensorItem[]
@@ -29,24 +34,47 @@ export class SensorItemAccess {
     }).promise()
   }
 
-  async deleteSensorItem(sensorId: string) {
+  async deleteSensorItem(userId: string, sensorId: string) {
     await this.docClient.delete({
       TableName: this.sensorsTable,
       Key: {
+        userId,
         sensorId
       }
     }).promise()
   }
 
-  async getSensor(sensorId: string) {
+  async getSensor(userId: string, sensorId: string) {
     const result = await this.docClient.get({
       TableName: this.sensorsTable,
       Key: {
+        userId,
         sensorId,
       }
     }).promise();
 
     return result.Item as SensorItem;
+  }
+
+  async updateSensorItem(userId: string, sensorId: string, updatedSensorItem: SensorUpdate) {
+    await this.docClient.update({
+      TableName: this.sensorsTable,
+      Key: {
+        userId,
+        sensorId
+      },
+      UpdateExpression: 'set #name = :n, #dueDate = :due, #done = :d',
+      ExpressionAttributeValues: {
+        ':n': updatedSensorItem.name,
+        ':due': updatedSensorItem.description,
+        ':d': updatedSensorItem.done
+      },
+      ExpressionAttributeNames: {
+        '#name': 'name',
+        '#dueDate': 'dueDate',
+        '#done': 'done'
+      }
+    }).promise();
   }
 }
 

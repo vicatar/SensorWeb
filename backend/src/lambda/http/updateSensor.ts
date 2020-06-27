@@ -4,12 +4,25 @@ import { APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult } f
 
 import { UpdateSensorRequest } from '../../requests/UpdateSensorRequest'
 
+import { updateSensorItem } from '../../businessLogic/sensors';
+
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const sensorId = event.pathParameters.sensorId
   const updatedSensor: UpdateSensorRequest = JSON.parse(event.body)
 
-  // TODO: Update a TODO item with the provided id using values in the "updatedTodo" object
-  console.log(sensorId)
-  console.log(updatedSensor)
-  return undefined
+  // TUpdate a sensor item with the provided id using values in the "updatedSensor" object
+  console.log('Update todo: ', sensorId, updatedSensor)
+
+  const todos = await updateSensorItem(event, updatedSensor)
+
+  return {
+    statusCode: 200,
+    headers: {
+      'Access-Control-Allow-Credentials': true,
+      'Access-Control-Allow-Origin': '*'
+    },
+    body: JSON.stringify({
+      items: todos
+    })
+  }
 }

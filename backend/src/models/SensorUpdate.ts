@@ -1,5 +1,5 @@
 export interface SensorUpdate {
   name: string
-  dueDate: string
+  description: string
   done: boolean
 }

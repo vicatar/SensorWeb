@@ -4,10 +4,10 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult, APIGatewayProxyHandler } f
 import { getAllSensorItems } from '../../businessLogic/sensors';
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-  // TODO: Get all TODO items for a current user
+  // Get all sensor items for a current user
   console.log('Processing event: ', event)
 
-  const sensors = await getAllSensorItems()
+  const sensors = await getAllSensorItems(event)
 
   return {
     statusCode: 200,
